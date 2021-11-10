@@ -54,7 +54,7 @@ describe('First Api Tests', () => {
     expect(response.body.method).to.eql('PUT');
   });
 
-  it('Consume PUT Service', async () => {
+  it('Consume DELETE Service', async () => {
     const param = 1;
     const response = await agent.delete(
       `https://httpbin.org/anything/${param}`
