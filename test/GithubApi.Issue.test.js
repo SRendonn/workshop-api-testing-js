@@ -45,6 +45,8 @@ describe('Github Api Issue test', () => {
           });
 
         expect(response.status).to.equal(StatusCodes.CREATED);
+        expect(response.body.title).to.equal(title);
+        expect(response.body.description).to.equal(null);
         describe('then change the issue body', () => {
           const issueNumber = response.body.number;
           it('should change the issue body, the title remains the same', async () => {
