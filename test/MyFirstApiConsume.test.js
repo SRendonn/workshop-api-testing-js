@@ -1,5 +1,5 @@
 const agent = require('superagent');
-const statusCode = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 const chai = require('chai');
 
 const { expect } = chai;
@@ -8,7 +8,7 @@ describe('First Api Tests', () => {
   it('Consume GET Service', async () => {
     const response = await agent.get('https://httpbin.org/ip');
 
-    expect(response.status).to.equal(statusCode.StatusCodes.OK);
+    expect(response.status).to.equal(StatusCodes.OK);
     expect(response.body).to.have.property('origin');
   });
 
@@ -21,14 +21,14 @@ describe('First Api Tests', () => {
 
     const response = await agent.get('https://httpbin.org/get').query(query);
 
-    expect(response.status).to.equal(statusCode.StatusCodes.OK);
+    expect(response.status).to.equal(StatusCodes.OK);
     expect(response.body.args).to.eql(query);
   });
 
   it('Consume HEAD Service', async () => {
     const response = await agent.head('https://httpbin.org/get');
 
-    expect(response.status).to.equal(statusCode.StatusCodes.OK);
+    expect(response.status).to.equal(StatusCodes.OK);
     expect(response.header['content-type']).to.eql('application/json');
   });
 
@@ -43,14 +43,14 @@ describe('First Api Tests', () => {
       .patch('https://httpbin.org/patch')
       .query(query);
 
-    expect(response.status).to.equal(statusCode.StatusCodes.OK);
+    expect(response.status).to.equal(StatusCodes.OK);
     expect(response.body.args).to.eql(query);
   });
 
   it('Consume PUT Service', async () => {
     const response = await agent.put('https://httpbin.org/anything');
 
-    expect(response.status).to.equal(statusCode.StatusCodes.OK);
+    expect(response.status).to.equal(StatusCodes.OK);
     expect(response.body.method).to.eql('PUT');
   });
 
@@ -60,7 +60,7 @@ describe('First Api Tests', () => {
       `https://httpbin.org/anything/${param}`
     );
 
-    expect(response.status).to.equal(statusCode.StatusCodes.OK);
+    expect(response.status).to.equal(StatusCodes.OK);
     expect(response.body.method).to.eql('DELETE');
   });
 });

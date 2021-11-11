@@ -1,6 +1,6 @@
 require('dotenv').config();
 const agent = require('superagent');
-const statusCode = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 const { expect } = require('chai');
 const crypto = require('crypto');
 
@@ -10,13 +10,13 @@ const repoName = 'jasmine-awesome-report';
 
 describe('GitHub GET method test', () => {
   describe('Get user information', () => {
-    it('Verifies the user information', async () => {
+    it('should verify the user information', async () => {
       const response = await agent
         .get(`${urlBase}/users/${githubUsername}`)
         .auth('token', process.env.ACCESS_TOKEN)
         .set('User-Agent', 'SRendonn');
 
-      expect(response.status).to.equal(statusCode.StatusCodes.OK);
+      expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body.name).equal('Alejandro Perdomo');
       expect(response.body.company).equal('Perficient Latam');
       expect(response.body.location).equal('Colombia');
@@ -26,13 +26,13 @@ describe('GitHub GET method test', () => {
   describe('Get repo from user', async () => {
     let selectedRepo;
 
-    it('gets the jasmine-awesome-report repo', async () => {
+    it('should get the jasmine-awesome-report repo', async () => {
       const response = await agent
         .get(`${urlBase}/users/${githubUsername}/repos`)
         .auth('token', process.env.ACCESS_TOKEN)
         .set('User-Agent', 'SRendonn');
 
-      expect(response.status).to.equal(statusCode.StatusCodes.OK);
+      expect(response.status).to.equal(StatusCodes.OK);
       selectedRepo = response.body.find((repo) => repo.name === repoName);
       expect(selectedRepo.name).equal(repoName);
       expect(selectedRepo.private).to.equal(false);
@@ -51,13 +51,13 @@ describe('GitHub GET method test', () => {
           .auth('token', process.env.ACCESS_TOKEN)
           .set('User-Agent', 'SRendonn');
 
-        expect(response.status).to.equal(statusCode.StatusCodes.OK);
+        expect(response.status).to.equal(StatusCodes.OK);
         expect(
           crypto.createHash('MD5').update(response.body).digest('hex')
         ).to.equal(repoMD5);
       });
 
-      it('Check README', async () => {
+      it('should check README', async () => {
         const readmeSHA = '1eb7c4c6f8746fcb3d8767eca780d4f6c393c484';
         const readmeMD5 = '97ee7616a991aa6535f24053957596b1';
         const response = await agent
@@ -65,7 +65,7 @@ describe('GitHub GET method test', () => {
           .auth('token', process.env.ACCESS_TOKEN)
           .set('User-Agent', 'SRendonn');
         const readmeFile = await agent.get(response.body.download_url);
-        expect(response.status).to.equal(statusCode.StatusCodes.OK);
+        expect(response.status).to.equal(StatusCodes.OK);
         expect(response.body.name).to.equal('README.md');
         expect(response.body.path).to.equal('README.md');
         expect(response.body.sha).to.equal(readmeSHA);
